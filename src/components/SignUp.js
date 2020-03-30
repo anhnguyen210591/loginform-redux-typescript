@@ -56,7 +56,7 @@ export class SignUp extends Component {
                 <div className="input-field">
                     <button className="btn black">Sign Up</button>
                     {this.props.isSignUpPending && <div>Loading....</div>}
-                    {this.props.isSignUpSuccess && <Redirect to='/'></Redirect>}
+                    {this.props.isSignUpSuccess && <div>Sign Up succesful</div>}
                     {this.props.isSignUpError && <div>{this.props.isSignUpError}</div>}
                 </div>
                 </form>
