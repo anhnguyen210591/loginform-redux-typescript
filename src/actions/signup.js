@@ -21,9 +21,6 @@ export const setSignUpError=(isSignUpError)=>{
 
 export function signup(email,password,firstname,lastname){
     return dispatch => {
-        dispatch(setSignUpPending(false));
-        dispatch(setSignUpSuccess(false));
-        dispatch(setSignUpError(null));
         sendLoginRequest(email,password,firstname,lastname)
     .then(success => {
         dispatch(setSignUpPending(false));

@@ -27,9 +27,6 @@ export function logout(){
 
 export function login(email,password){
     return dispatch => {
-        dispatch(setLoginPending(false));
-        dispatch(setLoginSuccess(false));
-        dispatch(setLoginError(null));
         sendLoginRequest(email,password)
     .then(success => {
         dispatch(setLoginPending(false));
