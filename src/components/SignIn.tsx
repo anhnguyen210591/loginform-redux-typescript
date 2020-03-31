@@ -2,10 +2,45 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {login} from '../actions'
 import {Redirect} from 'react-router-dom'
+import {LoginStatus} from '../types/LoginStatus'
+import {Authen} from '../types/Authen'
+import {AppState } from '../store'
+import {bindActionCreators} from 'redux'
+
+interface OwnProps {
+}
+
+interface ConnectorProps {
+    isLoginPending:LoginStatus["isLoginPending"],
+    isLoginSuccess:LoginStatus["isLoginSuccess"],
+    isLoginError:LoginStatus["isLoginError"]
+}
 
 
-export class SignIn extends Component {
-    constructor(props){
+interface ActionCreators{
+    login:(email:Authen["email"],password:Authen["password"])=>void
+}
+
+
+const matpStateToProps = (state:AppState):ConnectorProps =>{
+    return{
+        isLoginPending : state.login.isLoginPending,
+        isLoginSuccess : state.login.isLoginSuccess,
+        isLoginError : state.login.isLoginError
+    };
+}
+
+const mapDispatchToProps =(dispatch:any):ActionCreators =>{
+    return{
+        login:bindActionCreators(login,dispatch)
+    };
+}
+
+type Loginprops = OwnProps&ConnectorProps&ActionCreators
+
+
+export class SignIn extends Component<Loginprops,Authen> {
+    constructor(props:Loginprops){
     super(props);
     this.state={
         email:"",
@@ -13,13 +48,15 @@ export class SignIn extends Component {
     };
     }
 
-    handleChange = (e)=>{
+    handleChange = (e:any)=>{
         this.setState({
-            [e.target.name]:e.target.value
+            ...this.state,
+            email:e.currentTarget.value,
+            password:e.currentTarget.value
         })
     }
 
-    handleSubmit = (e)=>{
+    handleSubmit = (e:any)=>{
         e.preventDefault();
         this.props.login(this.state.email,this.state.password)
     }
@@ -54,18 +91,6 @@ export class SignIn extends Component {
 }
 
 
-const matpStateToProps = (state) =>{
-    return{
-        isLoginPending : state.login.isLoginPending,
-        isLoginSuccess : state.login.isLoginSuccess,
-        isLoginError : state.login.isLoginError
-    };
-}
 
-const mapDispatchToProps =(dispatch) =>{
-    return{
-        login:(email,password)=>dispatch(login(email,password))
-    };
-}
 
 export default connect(matpStateToProps,mapDispatchToProps)(SignIn)

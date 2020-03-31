@@ -1,26 +1,34 @@
-export const setSignUpPending=(isSignUpPending)=>{
+import { SignupActionTypes } from "../types/action"
+import { Dispatch } from "redux"
+import {UserInfo} from '../types/Userinfo'
+export const setSignUpPending=(isSignUpPending:boolean):SignupActionTypes=>{
     return {
         type:'SIGNUP_PENDING',
         isSignUpPending
     }
 }
 
-export const setSignUpSuccess=(isSignUpSuccess)=>{
+export const setSignUpSuccess=(isSignUpSuccess:boolean):SignupActionTypes=>{
     return {
         type:'SIGNUP_SUCCESS',
         isSignUpSuccess
     }
 }
 
-export const setSignUpError=(isSignUpError)=>{
+export const setSignUpError=(isSignUpError:boolean):SignupActionTypes=>{
     return {
         type:'SIGNUP_ERROR',
         isSignUpError
     }
 }
 
-export function signup(email,password,firstname,lastname){
-    return dispatch => {
+export function signup(
+    email:UserInfo["email"],
+    password:UserInfo["password"],
+    firstname:UserInfo["firstname"],
+    lastname:UserInfo["lastname"]
+    ){
+    return (dispatch:Dispatch<SignupActionTypes>) => {
         sendLoginRequest(email,password,firstname,lastname)
     .then(success => {
         dispatch(setSignUpPending(false));
@@ -34,7 +42,12 @@ export function signup(email,password,firstname,lastname){
     }
 }
 
-function sendLoginRequest(email,password,firstname,lastname){
+function sendLoginRequest(
+    email:UserInfo["email"],
+    password:UserInfo["password"],
+    firstname:UserInfo["firstname"],
+    lastname:UserInfo["lastname"]
+    ){
     return new Promise((resolve,reject) => {
         fetch("http://localhost:9000/user/",{
             method:'post',

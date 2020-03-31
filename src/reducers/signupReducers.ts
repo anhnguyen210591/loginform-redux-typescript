@@ -1,4 +1,9 @@
-const signupReducers = (state={isSignUpPending : false,isSignUpSuccess : false,isSignUpError : null,},action) => {
+import {SignupStatus} from '../types/SignupStatus'
+import { SignupActionTypes } from '../types/action';
+
+const initState:SignupStatus = {isSignUpPending : false,isSignUpSuccess : false,isSignUpError : null};
+
+const signupReducers = (state=initState,action:SignupActionTypes):SignupStatus => {
     switch(action.type){
         case 'SIGNUP_PENDING':
             return {

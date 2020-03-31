@@ -2,9 +2,31 @@ import React from 'react'
 import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {logout} from '../actions/login'
+import {bindActionCreators} from 'redux'
 
 
-class SignedInLinks extends React.Component{
+
+interface OwnProps {
+}
+
+interface ConnectorProps {
+ 
+}
+
+interface ActionCreators{
+    logout:()=>void
+}
+
+const mapDispatchToProps =(dispatch:any):ActionCreators=>{
+    return{
+        logout:bindActionCreators(logout,dispatch)
+    };
+}
+
+type Loginprops = OwnProps&ConnectorProps&ActionCreators
+
+
+class SignedInLinks extends React.Component<Loginprops>{
     render(){
     return (
         <ul className='right'>
@@ -13,13 +35,6 @@ class SignedInLinks extends React.Component{
         </ul>
     )
 }
-}
-
-
-const mapDispatchToProps =(dispatch)=>{
-    return{
-    logout:()=>dispatch(logout())
-    }
 }
 
 export default connect(null,mapDispatchToProps)(SignedInLinks)

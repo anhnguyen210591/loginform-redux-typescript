@@ -1,4 +1,10 @@
-const loginReducers = (state={isLoginPending : false,isLoginSuccess : false,isLoginError : null,},action) => {
+import { LoginActionTypes } from "../types/action"
+import { LoginStatus } from "../types/LoginStatus"
+
+const initState:LoginStatus = {isLoginPending : false,isLoginSuccess : false,isLoginError : null};
+
+
+const loginReducers = (state=initState,action:LoginActionTypes):LoginStatus => {
     switch(action.type){
         case 'LOGIN_PENDING':
             return {

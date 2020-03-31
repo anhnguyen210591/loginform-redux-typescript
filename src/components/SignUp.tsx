@@ -2,10 +2,51 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {signup} from '../actions'
 import {Redirect} from 'react-router-dom'
+import {SignupStatus} from '../types/SignupStatus'
+import {UserInfo} from '../types/Userinfo'
+import {AppState } from '../store'
+import {bindActionCreators} from 'redux'
 
 
-export class SignUp extends Component {
-    constructor(props){
+
+
+interface OwnProps {
+}
+
+interface ConnectorProps {
+    isSignUpPending:SignupStatus["isSignUpPending"],
+    isSignUpSuccess:SignupStatus["isSignUpSuccess"],
+    isSignUpError:SignupStatus["isSignUpError"]
+}
+
+
+interface ActionCreators{
+    signup:(email:UserInfo["email"]
+    ,password:UserInfo["password"]
+    ,firsname:UserInfo["firstname"]
+    ,lastname:UserInfo["lastname"]
+    )=>void
+}
+
+const mapStateToProps = (state:AppState):ConnectorProps =>{
+    return{
+        isSignUpPending : state.signup.isSignUpPending,
+        isSignUpSuccess : state.signup.isSignUpSuccess,
+        isSignUpError : state.signup.isSignUpError
+    };
+}
+
+const mapDispatchToProps =(dispatch:any):ActionCreators =>{
+    return{
+        signup:bindActionCreators(signup,dispatch)
+    };
+}
+
+type Signuprops = OwnProps&ConnectorProps&ActionCreators
+
+
+export class SignUp extends Component<Signuprops,UserInfo> {
+    constructor(props:Signuprops){
         super(props);
     this.state={
         email:'',
@@ -15,13 +56,17 @@ export class SignUp extends Component {
     }
     }
 
-    handleChange = (e)=>{
+    handleChange = (e:any)=>{
         this.setState({
-            [e.target.name]:e.target.value
+            ...this.state,
+            email:e.currentTarget.value,
+            password:e.currentTarget.value,
+            firstname:e.currentTarget.value,
+            lastname:e.currentTarget.value
         })
     }
 
-    handleSubmit = (e)=>{
+    handleSubmit = (e:any)=>{
         e.preventDefault();
         this.props.signup(this.state.email,this.state.password,this.state.firstname,this.state.lastname)
     }
@@ -66,17 +111,5 @@ export class SignUp extends Component {
     }
 }
 
-const mapStateToProps = (state) =>{
-    return{
-        isSignUpPending : state.signup.isSignUpPending,
-        isSignUpSuccess : state.signup.isSignUpSuccess,
-        isSignUpError : state.signup.isSignUpError
-    };
-}
 
-const mapDispatchToProps =(dispatch) =>{
-    return{
-        signup:(email,password,firsname,lastname)=>dispatch(signup(email,password,firsname,lastname))
-    };
-}
 export default connect(mapStateToProps,mapDispatchToProps)(SignUp)

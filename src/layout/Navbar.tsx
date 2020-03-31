@@ -3,18 +3,42 @@ import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import SignInLinks from './SignInLinks'
 import SignOutLinks from './SignOutLinks'
-import {NavLink} from 'react-router-dom'
-import {logout} from '../actions'
+import {LoginStatus} from '../types/LoginStatus'
+import {IsLoggedIn} from '../types/isLoggedIn'
+import {AppState } from '../store'
 
 
-class Navbar extends React.Component {
-    constructor(props){
+interface OwnProps {
+}
+
+interface ConnectorProps {
+    isLoginPending:LoginStatus["isLoginPending"],
+    isLoginSuccess:LoginStatus["isLoginSuccess"],
+    isLoginError:LoginStatus["isLoginError"]
+}
+
+interface ActionCreators{
+}
+
+type NavbarProps=OwnProps&ConnectorProps&ActionCreators
+
+const mapStateToProps = (state:AppState) =>{
+    return{
+        isLoginPending : state.login.isLoginPending,
+        isLoginSuccess : state.login.isLoginSuccess,
+        isLoginError : state.login.isLoginError
+    };
+}
+
+
+class Navbar extends React.Component<NavbarProps,IsLoggedIn> {
+    constructor(props:NavbarProps){
     super(props);
     this.state={
         isLoggedIn: false
     };
     }
-    componentWillReceiveProps(next) {
+    componentWillReceiveProps(next:any) {
         this.setState({
             isLoggedIn: next.isLoginSuccess
         })
@@ -35,17 +59,6 @@ class Navbar extends React.Component {
         )
     }
 }
-
-
-const mapStateToProps = (state) =>{
-    return{
-        isLoginPending : state.login.isLoginPending,
-        isLoginSuccess : state.login.isLoginSuccess,
-        isLoginError : state.login.isLoginError
-    };
-}
-
-
 
 
 
