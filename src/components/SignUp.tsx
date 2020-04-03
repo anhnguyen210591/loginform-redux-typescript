@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {signup} from '../actions'
-import {Redirect} from 'react-router-dom'
 import {SignupStatus} from '../types/SignupStatus'
 import {UserInfo} from '../types/Userinfo'
 import {AppState } from '../store'

@@ -1,5 +1,6 @@
 import {LoginStatus} from "./LoginStatus"
 import {SignupStatus} from './SignupStatus'
+import {EditProfileStatus} from './EditProfileStatus'
 
 export const LOGIN_PENDING = 'LOGIN_PENDING';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -8,6 +9,10 @@ export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const SIGNUP_PENDING = 'SIGNUP_PENDING';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 export const SIGNUP_ERROR = 'SIGNUP_ERROR';
+
+export const EDIT_PROFILE_PENDING = 'EDIT_PROFILE_PENDING';
+export const EDIT_PROFILE_SUCCESS = 'EDIT_PROFILE_SUCCESS';
+export const EDIT_PROFILE_ERROR = 'EDIT_PROFILE_ERROR';
 
 export interface SetLoginPending {
     type : typeof LOGIN_PENDING;
@@ -39,7 +44,23 @@ export interface SetSignupError {
     isSignUpError : SignupStatus["isSignUpError"]
 }
 
+export interface SetEditProfilePending {
+    type : typeof EDIT_PROFILE_PENDING;
+    isEditProfilePending : EditProfileStatus["isEditProfilePending"]
+}
+
+export interface SetEditProfileSuccess {
+    type : typeof EDIT_PROFILE_SUCCESS;
+    isEditProfileSuccess : EditProfileStatus["isEditProfileSuccess"]
+}
+
+export interface SetEditProfileError {
+    type : typeof EDIT_PROFILE_ERROR;
+    isEditProfileError : EditProfileStatus["isEditProfileError"]
+}
+
 export type LoginActionTypes=SetLoginPending|SetLoginSuccess|SetLoginError
 export type SignupActionTypes=SetSignupPending|SetSignupSuccess|SetSignupError
+export type EditProfileActionTypes=SetEditProfilePending|SetEditProfileSuccess|SetEditProfileError
 
-export type AppActions = LoginActionTypes|SignupActionTypes
+export type AppActions = LoginActionTypes|SignupActionTypes|EditProfileActionTypes

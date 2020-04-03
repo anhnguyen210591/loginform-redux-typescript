@@ -4,7 +4,6 @@ import {connect} from 'react-redux'
 import SignInLinks from './SignInLinks'
 import SignOutLinks from './SignOutLinks'
 import {LoginStatus} from '../types/LoginStatus'
-import {IsLoggedIn} from '../types/isLoggedIn'
 import {AppState } from '../store'
 
 
@@ -31,17 +30,9 @@ const mapStateToProps = (state:AppState) =>{
 }
 
 
-class Navbar extends React.Component<NavbarProps,IsLoggedIn> {
+class Navbar extends React.Component<NavbarProps> {
     constructor(props:NavbarProps){
     super(props);
-    this.state={
-        isLoggedIn: false
-    };
-    }
-    componentWillReceiveProps(next:any) {
-        this.setState({
-            isLoggedIn: next.isLoginSuccess
-        })
     }
 
     render() {
@@ -51,7 +42,7 @@ class Navbar extends React.Component<NavbarProps,IsLoggedIn> {
                     <div className='container'>
                         <Link to='/' className='brand-logo'>Practise </Link>
                         {
-                            this.state.isLoggedIn ?  <SignInLinks/> :  <SignOutLinks/>
+                            this.props.isLoginSuccess ?  <SignInLinks/> :  <SignOutLinks/>
                         }
                     </div>
                 </nav>

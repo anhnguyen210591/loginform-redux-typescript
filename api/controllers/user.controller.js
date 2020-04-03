@@ -35,7 +35,13 @@ class UserController {
         } else {
           const checkUserPass = await UserModel.findOne({email, password});
           if (checkUserPass){
-            return res.status(200).json({Message: "Login successful"})
+            return res.status(200).json({
+              Message: "Login successful",
+              id:checkUserPass._id,
+              emai:checkUserPass.email,
+              firstname:checkUserPass.firstname,
+              lastname:checkUserPass.lastname
+            })
           } else{
             return res.status(400).json({Message: "Fault account"})
           }
@@ -48,10 +54,16 @@ class UserController {
 
       static async update(req, res) {
         try {
+          const { email } = req.body;
+          const checkUser = await UserModel.findOne({email});
+          if (!checkUser){
+            return res.status(400).json({Message : "Fail to update!! User does not exist"})
+          }else {
           const userId = req.params.userId;
           const newUser = req.body;
           const user = await UserModel.findOneAndUpdate({ _id: userId }, newUser);
           res.status(200).json({ id: user._id });
+          }
         } catch (error) {
           res.status(500).json(error);
         }

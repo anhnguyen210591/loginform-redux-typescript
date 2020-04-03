@@ -40,7 +40,6 @@ export function login(
         dispatch(setLoginSuccess(true));
     })
     .catch(err=>{
-    
         dispatch(setLoginPending(false));
         dispatch(setLoginError(err))
     })
