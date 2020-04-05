@@ -3,9 +3,9 @@ import {connect} from 'react-redux'
 import {login} from '../actions'
 import {Redirect} from 'react-router-dom'
 import {LoginStatus} from '../types/LoginStatus'
-import {Authen} from '../types/Authen'
 import {AppState } from '../store'
 import {bindActionCreators} from 'redux'
+import { UserInfo } from '../types/Userinfo'
 
 interface OwnProps {
 }
@@ -18,15 +18,15 @@ interface ConnectorProps {
 
 
 interface ActionCreators{
-    login:(email:Authen["email"],password:Authen["password"])=>void
+    login:(email:UserInfo["email"],password:UserInfo["password"])=>void
 }
 
 
 const matpStateToProps = (state:AppState):ConnectorProps =>{
     return{
-        isLoginPending : state.login.isLoginPending,
-        isLoginSuccess : state.login.isLoginSuccess,
-        isLoginError : state.login.isLoginError
+        isLoginPending : state.login.loginOfReducers.isLoginPending,
+        isLoginSuccess : state.login.loginOfReducers.isLoginSuccess,
+        isLoginError : state.login.loginOfReducers.isLoginError
     };
 }
 
@@ -39,20 +39,22 @@ const mapDispatchToProps =(dispatch:any):ActionCreators =>{
 type Loginprops = OwnProps&ConnectorProps&ActionCreators
 
 
-export class SignIn extends Component<Loginprops,Authen> {
+export class SignIn extends Component<Loginprops,UserInfo> {
     constructor(props:Loginprops){
     super(props);
     this.state={
+        _id:"",
         email:"",
-        password:""
+        password:"",
+        firstname:"",
+        lastname:""
     };
     }
 
     handleChange = (e:any)=>{
         this.setState({
             ...this.state,
-            email:e.currentTarget.value,
-            password:e.currentTarget.value
+            [e.target.name]: e.target.value
         })
     }
 

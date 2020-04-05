@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import {signup} from '../actions'
-import {SignupStatus} from '../types/SignupStatus'
+import {editProfile} from '../actions'
+import {EditProfileStatus} from '../types/EditProfileStatus'
 import {UserInfo} from '../types/Userinfo'
 import {AppState } from '../store'
 import {bindActionCreators} from 'redux'
@@ -13,14 +13,17 @@ interface OwnProps {
 }
 
 interface ConnectorProps {
-    isSignUpPending:SignupStatus["isSignUpPending"],
-    isSignUpSuccess:SignupStatus["isSignUpSuccess"],
-    isSignUpError:SignupStatus["isSignUpError"]
+    isEditProfilePending:EditProfileStatus["isEditProfilePending"],
+    isEditProfileSuccess:EditProfileStatus["isEditProfileSuccess"],
+    isEditProfileError:EditProfileStatus["isEditProfileError"],
+    data:any
 }
 
 
 interface ActionCreators{
-    signup:(email:UserInfo["email"]
+    editProfile:(
+    userId:UserInfo["_id"]
+    ,email:UserInfo["email"]
     ,password:UserInfo["password"]
     ,firsname:UserInfo["firstname"]
     ,lastname:UserInfo["lastname"]
@@ -29,23 +32,24 @@ interface ActionCreators{
 
 const mapStateToProps = (state:AppState):ConnectorProps =>{
     return{
-        isSignUpPending : state.signup.isSignUpPending,
-        isSignUpSuccess : state.signup.isSignUpSuccess,
-        isSignUpError : state.signup.isSignUpError
+        isEditProfilePending : state.editProfile.isEditProfilePending,
+        isEditProfileSuccess : state.editProfile.isEditProfileSuccess,
+        isEditProfileError : state.editProfile.isEditProfileError,
+        data : state.login.setUserInfoReducers
     };
 }
 
 const mapDispatchToProps =(dispatch:any):ActionCreators =>{
     return{
-        signup:bindActionCreators(signup,dispatch)
+        editProfile:bindActionCreators(editProfile,dispatch)
     };
 }
 
-type Signuprops = OwnProps&ConnectorProps&ActionCreators
+type EditProfileprops = OwnProps&ConnectorProps&ActionCreators
 
 
-export class SignUp extends Component<Signuprops,UserInfo> {
-    constructor(props:Signuprops){
+export class EditProfile extends Component<EditProfileprops,UserInfo> {
+    constructor(props:EditProfileprops){
         super(props);
     this.state={
         _id:"",
@@ -64,9 +68,11 @@ export class SignUp extends Component<Signuprops,UserInfo> {
     }
 
     handleSubmit = (e:any)=>{
+        console.log("data id",this.props.data.data.id)
         e.preventDefault();
-        this.props.signup(
-            this.state.email
+        this.props.editProfile(
+            this.props.data.data.id
+            ,this.state.email
             ,this.state.password
             ,this.state.firstname
             ,this.state.lastname)
@@ -76,7 +82,6 @@ export class SignUp extends Component<Signuprops,UserInfo> {
         return (
             <div className="container">
                 <form onSubmit={this.handleSubmit} className='white'>
-
                 <div className="input-field">
                     <label>First Name</label>
                     <input type="text" name="firstname" onChange={this.handleChange}/>
@@ -98,10 +103,10 @@ export class SignUp extends Component<Signuprops,UserInfo> {
                 </div>
 
                 <div className="input-field">
-                    <button className="btn black">Sign Up</button>
-                    {this.props.isSignUpPending && <div>Loading....</div>}
-                    {this.props.isSignUpSuccess && <div>Sign Up succesful</div>}
-                    {this.props.isSignUpError && <div>{this.props.isSignUpError}</div>}
+                    <button className="btn black">Edit Profile</button>
+                    {this.props.isEditProfilePending && <div>Loading....</div>}
+                    {this.props.isEditProfileSuccess && <div>EditProfile Up succesful</div>}
+                    {this.props.isEditProfileError && <div>{this.props.isEditProfileError}</div>}
                 </div>
                 </form>
                 
@@ -111,4 +116,4 @@ export class SignUp extends Component<Signuprops,UserInfo> {
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(SignUp)
+export default connect(mapStateToProps,mapDispatchToProps)(EditProfile)

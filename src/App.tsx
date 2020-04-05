@@ -4,6 +4,8 @@ import Navbar from './layout/Navbar'
 import Dashboard from './dashboard/Dashboard'
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
+import UserProfile from './components/UserProfile'
+import EditProfile from './components/EditProfile'
 
 class App extends React.Component {
   // constructor(props){
@@ -32,6 +34,9 @@ class App extends React.Component {
               <Route exact path='/' component={Dashboard}/>
               <Route path='/signin' component={SignIn}/>
               <Route path='/signup' component={SignUp}/>
+              <Route path='/signup' component={SignUp}/>
+              <Route path='/userProfile' component={UserProfile}/>
+              <Route path='/editProfile' component={EditProfile}/>
            </Switch>
         </div>
       </BrowserRouter>

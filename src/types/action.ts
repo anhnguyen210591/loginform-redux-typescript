@@ -5,6 +5,7 @@ import {EditProfileStatus} from './EditProfileStatus'
 export const LOGIN_PENDING = 'LOGIN_PENDING';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
+export const SET_USER_INFO='SET_USER_INFO';
 
 export const SIGNUP_PENDING = 'SIGNUP_PENDING';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
@@ -22,6 +23,11 @@ export interface SetLoginPending {
 export interface SetLoginSuccess {
     type : typeof LOGIN_SUCCESS;
     isLoginSuccess : LoginStatus["isLoginSuccess"]
+}
+
+export interface SetUserInfo {
+    type : typeof SET_USER_INFO;
+    data:any
 }
 
 export interface SetLoginError {
@@ -59,7 +65,7 @@ export interface SetEditProfileError {
     isEditProfileError : EditProfileStatus["isEditProfileError"]
 }
 
-export type LoginActionTypes=SetLoginPending|SetLoginSuccess|SetLoginError
+export type LoginActionTypes=SetLoginPending|SetLoginSuccess|SetLoginError|SetUserInfo
 export type SignupActionTypes=SetSignupPending|SetSignupSuccess|SetSignupError
 export type EditProfileActionTypes=SetEditProfilePending|SetEditProfileSuccess|SetEditProfileError
 

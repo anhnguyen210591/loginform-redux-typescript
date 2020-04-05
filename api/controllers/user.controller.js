@@ -17,7 +17,7 @@ class UserController {
         if (!checkUser){
           const newUser = req.body;
           const user = await UserModel.create(newUser);
-          res.status(200).json({ id: user._id });
+          res.status(200).json({ id: user._id,email:user.email,firstname:user.firstname,lastname:user.lastname });
         } else {
           return res.status(400).json({Message : "Email already taken"})
         }
@@ -38,7 +38,7 @@ class UserController {
             return res.status(200).json({
               Message: "Login successful",
               id:checkUserPass._id,
-              emai:checkUserPass.email,
+              email:checkUserPass.email,
               firstname:checkUserPass.firstname,
               lastname:checkUserPass.lastname
             })
@@ -57,7 +57,7 @@ class UserController {
           const { email } = req.body;
           const checkUser = await UserModel.findOne({email});
           if (!checkUser){
-            return res.status(400).json({Message : "Fail to update!! User does not exist"})
+            return res.status(400).json({Message : "Fail to update!!!"})
           }else {
           const userId = req.params.userId;
           const newUser = req.body;

@@ -3,6 +3,7 @@ import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {logout} from '../actions/login'
 import {bindActionCreators} from 'redux'
+import {Redirect} from 'react-router-dom'
 
 
 
@@ -31,7 +32,7 @@ class SignedInLinks extends React.Component<Loginprops>{
     return (
         <ul className='right'>
             <li><button className="btn black" onClick={this.props.logout}>LogOut</button></li>
-            <li><NavLink to='/' className='btn btn-floating pink lighten-1'>AA</NavLink></li>
+            <li><NavLink to='/userProfile' className='btn btn-floating pink lighten-1'>AA</NavLink></li>
         </ul>
     )
 }

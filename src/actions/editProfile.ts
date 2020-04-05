@@ -23,13 +23,14 @@ export const setEditProfileError=(isEditProfileError:boolean):EditProfileActionT
 }
 
 export function editProfile(
+    userId:UserInfo["_id"],
     email:UserInfo["email"],
     password:UserInfo["password"],
     firstname:UserInfo["firstname"],
     lastname:UserInfo["lastname"]
     ){
     return (dispatch:Dispatch<EditProfileActionTypes>) => {
-        sendEditProfileRequest(email,password,firstname,lastname)
+        sendEditProfileRequest(userId,email,password,firstname,lastname)
     .then(success => {
         dispatch(setEditProfilePending(false));
         dispatch(setEditProfileSuccess(true));
@@ -43,14 +44,15 @@ export function editProfile(
 }
 
 function sendEditProfileRequest(
+    userId:UserInfo["_id"],
     email:UserInfo["email"],
     password:UserInfo["password"],
     firstname:UserInfo["firstname"],
     lastname:UserInfo["lastname"]
     ){
     return new Promise((resolve,reject) => {
-        fetch("http://localhost:9000/user/",{
-            method:'post',
+        fetch("http://localhost:9000/user/"+userId,{
+            method:'put',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'

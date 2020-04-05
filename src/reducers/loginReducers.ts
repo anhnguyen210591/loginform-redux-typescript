@@ -1,10 +1,11 @@
 import { LoginActionTypes } from "../types/action"
 import { LoginStatus } from "../types/LoginStatus"
+import { combineReducers } from 'redux'
 
 const initState:LoginStatus = {isLoginPending : false,isLoginSuccess : false,isLoginError : null};
 
 
-const loginReducers = (state=initState,action:LoginActionTypes):LoginStatus => {
+const loginOfReducers = (state=initState,action:LoginActionTypes):LoginStatus => {
     switch(action.type){
         case 'LOGIN_PENDING':
             return {
@@ -25,5 +26,23 @@ const loginReducers = (state=initState,action:LoginActionTypes):LoginStatus => {
             return state
     }
 }
+
+const initUserInfoState:any={};
+const setUserInfoReducers=(state=initUserInfoState,action:LoginActionTypes):any=>{
+    switch(action.type){
+        case 'SET_USER_INFO':
+            return{
+                ...state,
+                data:action.data
+            }
+        default:
+            return state
+    }
+}
+
+const loginReducers = combineReducers({
+    loginOfReducers : loginOfReducers,
+    setUserInfoReducers : setUserInfoReducers
+})
 
 export default loginReducers

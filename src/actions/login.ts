@@ -1,6 +1,6 @@
 import { LoginActionTypes } from "../types/action"
 import { Dispatch } from "redux"
-import {Authen} from '../types/Authen'
+import {UserInfo} from "../types/Userinfo"
 
 export const setLoginPending=(isLoginPending:boolean):LoginActionTypes=>{
     return {
@@ -23,6 +23,13 @@ export const setLoginError=(isLoginError:string):LoginActionTypes=>{
     }
 }
 
+export const setUserInfo=(data:any):LoginActionTypes=>{
+    return{
+        type:'SET_USER_INFO',
+        data
+    }
+}
+
 export function logout(){
     return (dispatch:Dispatch<LoginActionTypes>) =>{
         dispatch(setLoginSuccess(false))
@@ -30,14 +37,16 @@ export function logout(){
 }
 
 export function login(
-    email:Authen["email"],
-    password:Authen["password"]
+    email:UserInfo["email"],
+    password:UserInfo["password"]
     ){
     return (dispatch:Dispatch<LoginActionTypes>) => {
         sendLoginRequest(email,password)
     .then(success => {
+        console.log("return success object",success);
         dispatch(setLoginPending(false));
         dispatch(setLoginSuccess(true));
+        dispatch(setUserInfo(success));
     })
     .catch(err=>{
         dispatch(setLoginPending(false));
@@ -46,7 +55,7 @@ export function login(
     }
 }
 
-function sendLoginRequest(email:Authen["email"],password:Authen["password"]){
+function sendLoginRequest(email:UserInfo["email"],password:UserInfo["password"]){
     return new Promise((resolve,reject) => {
         fetch("http://localhost:9000/user/authen",{
             method:'post',
@@ -59,6 +68,7 @@ function sendLoginRequest(email:Authen["email"],password:Authen["password"]){
         .then(function(reponse){
             if (!reponse.ok) { throw reponse }
             return resolve(reponse.json());
+            
         })    
         .catch(async function(err) {
             const error = await err.json();
