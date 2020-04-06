@@ -24,9 +24,9 @@ interface ActionCreators{
 
 const matpStateToProps = (state:AppState):ConnectorProps =>{
     return{
-        isLoginPending : state.login.loginOfReducers.isLoginPending,
-        isLoginSuccess : state.login.loginOfReducers.isLoginSuccess,
-        isLoginError : state.login.loginOfReducers.isLoginError
+        isLoginPending : state.login.isLoginPending,
+        isLoginSuccess : state.login.isLoginSuccess,
+        isLoginError : state.login.isLoginError
     };
 }
 

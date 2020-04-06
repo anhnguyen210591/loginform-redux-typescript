@@ -35,7 +35,7 @@ const mapStateToProps = (state:AppState):ConnectorProps =>{
         isEditProfilePending : state.editProfile.isEditProfilePending,
         isEditProfileSuccess : state.editProfile.isEditProfileSuccess,
         isEditProfileError : state.editProfile.isEditProfileError,
-        data : state.login.setUserInfoReducers
+        data : state.setUserInfo
     };
 }
 

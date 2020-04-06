@@ -15,8 +15,9 @@ interface ActionCreators{
 }
 
 const matpStateToProps = (state:AppState):ConnectorProps =>{
+    console.log("State of setUserinfo",state.setUserInfo)
     return{
-        data : state.login.setUserInfoReducers,
+        data : state.setUserInfo
     };
 }
 

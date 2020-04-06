@@ -1,6 +1,8 @@
 import { LoginActionTypes } from "../types/action"
 import { Dispatch } from "redux"
 import {UserInfo} from "../types/Userinfo"
+import axios from 'axios';
+
 
 export const setLoginPending=(isLoginPending:boolean):LoginActionTypes=>{
     return {
@@ -57,24 +59,24 @@ export function login(
 
 function sendLoginRequest(email:UserInfo["email"],password:UserInfo["password"]){
     return new Promise((resolve,reject) => {
-        fetch("http://localhost:9000/user/authen",{
+        axios({
             method:'post',
-            headers: {
+            url:'http://localhost:9000/user/authen',
+            headers:{
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-              },
-            body : JSON.stringify({email,password})
+                    },
+            data:{
+                email:email,
+                password:password
+            }
         })
-        .then(function(reponse){
-            if (!reponse.ok) { throw reponse }
-            return resolve(reponse.json());
+        .then(function(response){
+            return resolve(response.data);
             
         })    
         .catch(async function(err) {
-            const error = await err.json();
-            console.log(error)
-            return reject(error.Message);
+            return reject(err.response.data.Message);
         })
     });
 }
-

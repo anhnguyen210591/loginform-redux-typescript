@@ -2,19 +2,13 @@ import { combineReducers } from 'redux'
 import loginReducers from './loginReducers' 
 import signupReducers from './signupReducers'
 import editProfileReducers from './editProfileReducers'
-import storage from 'redux-persist/lib/storage';
-import { persistReducer } from 'redux-persist';
+import setUserInfoReducers from './setUserInfoReducers'
 
-
-const loginPersitReducers = {
-  key: 'login',
-  storage: storage,
-  whitelist:['loginOfReducers']
-};
 
 const rootReducer = combineReducers({
-    login : persistReducer(loginPersitReducers,loginReducers),
+    login : loginReducers,
     signup : signupReducers,
-    editProfile:editProfileReducers
+    editProfile:editProfileReducers,
+    setUserInfo :setUserInfoReducers
   })
 export default rootReducer

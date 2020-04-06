@@ -1,6 +1,8 @@
 import { SignupActionTypes } from "../types/action"
 import { Dispatch } from "redux"
 import {UserInfo} from '../types/Userinfo'
+import axios from 'axios';
+
 export const setSignUpPending=(isSignUpPending:boolean):SignupActionTypes=>{
     return {
         type:'SIGNUP_PENDING',
@@ -29,7 +31,7 @@ export function signup(
     lastname:UserInfo["lastname"]
     ){
     return (dispatch:Dispatch<SignupActionTypes>) => {
-        sendLoginRequest(email,password,firstname,lastname)
+        sendSignupRequest(email,password,firstname,lastname)
     .then(success => {
         dispatch(setSignUpPending(false));
         dispatch(setSignUpSuccess(true));
@@ -42,29 +44,32 @@ export function signup(
     }
 }
 
-function sendLoginRequest(
+function sendSignupRequest(
     email:UserInfo["email"],
     password:UserInfo["password"],
     firstname:UserInfo["firstname"],
     lastname:UserInfo["lastname"]
     ){
     return new Promise((resolve,reject) => {
-        fetch("http://localhost:9000/user/",{
+        axios({
             method:'post',
-            headers: {
+            url:'http://localhost:9000/user/',
+            headers:{
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-              },
-            body : JSON.stringify({email,password,firstname,lastname})
+                    },
+            data:{
+                email:email,
+                password:password,
+                firstname:firstname,
+                lastname:lastname
+            }
         })
         .then(function(reponse){
-            if (!reponse.ok) { throw reponse }
-            return resolve(reponse.json());
+            return resolve(reponse.data);
         })    
         .catch(async function(err) {
-            const error = await err.json();
-            console.log('signup-error',error)
-            return reject(error.Message);
+            return reject(err.response.data.Message);
         })
     });
 }

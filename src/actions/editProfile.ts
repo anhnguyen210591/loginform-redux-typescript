@@ -1,6 +1,8 @@
 import { EditProfileActionTypes } from "../types/action"
 import { Dispatch } from "redux"
 import {UserInfo} from '../types/Userinfo'
+import axios from 'axios';
+
 export const setEditProfilePending=(isEditProfilePending:boolean):EditProfileActionTypes=>{
     return {
         type:'EDIT_PROFILE_PENDING',
@@ -51,23 +53,25 @@ function sendEditProfileRequest(
     lastname:UserInfo["lastname"]
     ){
     return new Promise((resolve,reject) => {
-        fetch("http://localhost:9000/user/"+userId,{
-            method:'put',
-            headers: {
+        axios({
+            method:'post',
+            url:'http://localhost:9000/user/'+userId,
+            headers:{
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-              },
-            body : JSON.stringify({email,password,firstname,lastname})
+                    },
+            data:{
+                email:email,
+                password:password,
+                firstname:firstname,
+                lastname:lastname
+            }
         })
         .then(function(reponse){
-            if (!reponse.ok) { throw reponse }
-            return resolve(reponse.json());
+            return resolve(reponse.data);
         })    
         .catch(async function(err) {
-            const error = await err.json();
-            console.log('edit-profile-error',error)
-            return reject(error.Message);
+            return reject(err.response.data.Message);
         })
     });
 }
-
