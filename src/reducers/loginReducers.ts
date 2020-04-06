@@ -1,6 +1,5 @@
 import { LoginActionTypes } from "../types/action"
 import { LoginStatus } from "../types/LoginStatus"
-
 const initState:LoginStatus = {isLoginPending : false,isLoginSuccess : false,isLoginError : null};
 
 
@@ -25,6 +24,5 @@ const loginReducers = (state=initState,action:LoginActionTypes):LoginStatus => {
             return state
     }
 }
-
-
+   
 export default loginReducers
