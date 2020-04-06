@@ -52,18 +52,24 @@ class UserController {
       }
     }
 
+
+    // static async update(req, res) {
+    //   try {
+    //     const authorId = req.params.authorId;
+    //     const newAuthor = req.body;
+    //     const author = await AuthorModel.findOneAndUpdate({ _id: authorId }, newAuthor);
+    //     res.status(200).json({ id: author._id });
+    //   } catch (error) {
+    //     res.status(500).json(error);
+    //   }
+    // }
+
       static async update(req, res) {
         try {
-          const { email } = req.body;
-          const checkUser = await UserModel.findOne({email});
-          if (!checkUser){
-            return res.status(400).json({Message : "Fail to update!!!"})
-          }else {
           const userId = req.params.userId;
           const newUser = req.body;
           const user = await UserModel.findOneAndUpdate({ _id: userId }, newUser);
-          res.status(200).json({ id: user._id });
-          }
+          res.status(200).json({ id: user._id});
         } catch (error) {
           res.status(500).json(error);
         }

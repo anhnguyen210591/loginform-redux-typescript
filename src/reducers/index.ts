@@ -9,6 +9,7 @@ import { persistReducer } from 'redux-persist';
 const loginPersitReducers = {
   key: 'login',
   storage: storage,
+  whitelist:['loginOfReducers']
 };
 
 const rootReducer = combineReducers({
